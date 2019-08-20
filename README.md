@@ -1,86 +1,38 @@
-<p align="center"><img src="https://raw.githubusercontent.com/totoval/art/master/repo_use/logo-with-words-landscape.png?s=200&v=4"></p>
+# SMS Serial Chip Forwarder
 
-![GitHub release](https://img.shields.io/github/release/totoval/totoval.svg)
-![GitHub last commit](https://img.shields.io/github/last-commit/totoval/totoval.svg)
-[![Go Report Card](https://goreportcard.com/badge/github.com/totoval/totoval)](https://goreportcard.com/report/github.com/totoval/totoval)
-![GitHub top language](https://img.shields.io/github/languages/top/totoval/totoval.svg)
-![Inspired by Laravel](https://img.shields.io/badge/Inspired%20by-Laravel-red.svg)
-![GitHub](https://img.shields.io/github/license/totoval/totoval.svg)
+* sim800c https://item.taobao.com/item.htm?spm=a1z09.2.0.0.6eb32e8dHA7ruJ&id=584802370108&_u=leof18sf84a ¥44.50
 
-## About Totoval
-Totoval is an API web framework that helps Golang engineers build a performance-boiled project quickly, easily, and securely. It is more like a scaffolding, respecting Golang's programming philosophy, supported by a number of highly acclaimed, high-performance core components, as well as many easy-to-use components to quickly adapt to more business scenarios. We also believe that development must be an enjoyable and creative experience. Totoval frees developers from the painful coding process. Do less, think more.
+```bash
+> ./sms-notifier sms:read /dev/ttyUSB1
+INFO[2019-08-21T02:44:49+08:00] Send Bytes                                    bytes="ATE0\r\n" length=6
+INFO[2019-08-21T02:44:49+08:00] Send Bytes                                    bytes="AT+CMEE=1\r\n" length=11
+INFO[2019-08-21T02:44:49+08:00] Send Bytes                                    bytes="AT+CMGF=0\r\n" length=11
+INFO[2019-08-21T02:44:49+08:00] Listening                                     com_port=/dev/ttyUSB1
+INFO[2019-08-21T02:44:49+08:00] Incoming data                                 data=OK
+```
 
-## Docs
-Refer to [https://totoval.com](https://totoval.com/docs/introduction/introduction/)
+## How To Use
+1. Plug in your USB chip
+2. find your serial port name -> `ls -l /dev/ttyUSB*`
+```bash
+> ls -l /dev/ttyUSB*
+crw-rw----. 1 root dialout 188, 1 8月  21 02:47 /dev/ttyUSB0
+```
+3. Copy `.env.example.json` -> `.env.json`
+4. Save your `pushover` config in `.env.json`
+5. `go run artisan sms:read /dev/YOUR-SERIAL`, such as `/dev/ttyUSB0`
 
-## Roadmap
-- [x] Env Configuration
-- [x] Groupable Router
-- [x] Request Middleware
-- [x] Request Validator
-- [x] Database Migration
-- [x] Model Validator
-- [x] Model Helper - such as `Pagination`
-- [x] BigInt,BigFloat Support
-- [x] Orm: Mysql
-- [x] User Token JWT Support
-- [x] Random Code Generate and Verification
-- [x] Random String Helper
-- [x] Locale Middleware
-- [x] Gin Validator Upgrade to v9
-- [x] Password Encryption
-- [x] Validation Error Multi-Language Support
-- [x] Request Logger Middleware
-- [x] Infinity User Affiliation System
-- [x] User Email Validation via Notification
-- [x] Views Support
-- [x] Language Package
-- [x] Cache: Memory
-- [x] Cache: Redis
-- [x] Queue, Worker `nsq`
-- [x] Event, Listener
-- [x] Custom Artisan Command Line
-- [x] Task Scheduling
-- [x] Logo
-- [x] Http Request Package `biu`
-- [x] Error Notifier `sentry`
-- [x] User Authorization
-- [x] Multi Ports Serving
-- [x] Model Mutator Getter/Setter
-- [x] Websocket Support
-- [ ] Monitor ***WIP***
-- [ ] Database Seeder ***PLANNED***
-- [ ] More Unit Test ***PLANNED***
-- [ ] Website && Document ***WIP***
-- [ ] File Storage ***PLANNED***
-- [ ] CI
+> Binary `WIP`
+
+## Implement your own NOTIFIER
+`/app/logics/phone/interfaces/notifier.go`  
+```go
+package interfaces
+
+type Notifier interface {
+	Notify(sender, content string) error
+}
+```
 
 ## Thanks
-* gin
-* gorm
-* validator.v9
-* viper
-* big
-* jwt
-* i18n
-* urfave/cli
-* fatih/color
-* golang/protobuf
-* nsqio/go-nsq
-* robfig/cron
-* ztrue/tracerr
-* go-redis/redis
-* getsentry/raven-go
-* iancoleman/strcase
-* gorilla/websocket
-
-## License
-This project is licensed under the [MIT license](https://github.com/totoval/totoval/blob/master/LICENSE).
-
-## Contact
-If you have any issues or feature requests, please contact us. PR is welcomed.
-
-* https://github.com/totoval/framework/issues  
-* Slack: https://totoval.slack.com
-* Zulip: https://totoval.zulipchat.com
-* totoval@tobyan.com
+* http://www.sendsms.cn/pdu/

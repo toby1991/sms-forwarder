@@ -1,6 +1,6 @@
 # SMS Serial Chip Forwarder
 
-* sim800c https://item.taobao.com/item.htm?spm=a1z09.2.0.0.6eb32e8dHA7ruJ&id=584802370108&_u=leof18sf84a ¥44.50
+* sim800c [I bought here](https://item.taobao.com/item.htm?id=584802370108) ¥44.50
 
 ```bash
 > ./sms-notifier sms:read /dev/ttyUSB1

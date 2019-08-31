@@ -5,20 +5,19 @@ import (
 	"fmt"
 	"github.com/totoval/framework/helpers/log"
 	"github.com/totoval/framework/helpers/toto"
+	"github.com/totoval/framework/helpers/zone"
 	"totoval/app/logics/phone/interfaces"
 	"totoval/app/logics/phone/messages"
 	"totoval/app/logics/phone/sms"
 )
 
 type phone struct {
-	chip interfaces.Chipper
 	chip     interfaces.Chipper
 	notifier interfaces.Notifier
 	storager interfaces.Storager
 	// smsBox interfaces.SmsBoxer
 }
 
-func New(chip interfaces.Chipper, notifier interfaces.Notifier) *phone {
 func New(chip interfaces.Chipper, notifier interfaces.Notifier, storager interfaces.Storager) *phone {
 	return &phone{
 		chip:     chip,
@@ -84,6 +83,11 @@ func (ph *phone) parse(msg []byte) error {
 		if err != nil {
 			return err
 		}
+
+		if err := sms.Amount(ph.chip); err != nil {
+			go ph.notifier.Notify("error-amount", err.Error())
+		}
+
 		data := make(map[string]string)
 		data["raw"] = string(msg[:])
 		data["sender"] = sender
@@ -95,9 +99,23 @@ func (ph *phone) parse(msg []byte) error {
 		return ph.notifier.Notify(sender, content)
 	}
 
-	//@todo other message type
+	if matched, smsAmount, smsMax, err := messages.ParseSmsAmount(msg); matched {
+		if err != nil {
+			return err
+		}
 
+		log.Info("sms amount", toto.V{"amount": smsAmount, "max": smsMax})
+		if smsAmount >= smsMax {
+			for i := uint(0); i < smsAmount; i++ {
+				if err := sms.Delete(ph.chip, i+1); err != nil {
+					return err
+				}
+				zone.Sleep(500 * zone.Millisecond)
+			}
+		}
 
+		return nil
+	}
 
 	// @todo other message type
 

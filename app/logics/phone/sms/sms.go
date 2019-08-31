@@ -36,4 +36,10 @@ func Delete(chip interfaces.Chipper, smsIndex uint) error {
 	}
 	return nil
 }
+func Amount(chip interfaces.Chipper) error {
+	if err := chip.Write([]byte("AT+CPMS?\r\n")); err != nil{
+		return err
+	}
+	return nil
+}
 

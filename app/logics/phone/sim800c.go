@@ -18,8 +18,8 @@ type sim800c struct {
 }
 func NewSim800c(comPort string, baudRate int, readTimeout zone.Duration) (*sim800c, error) {
 	s := &sim800c{
-		chB:make(chan []byte, 1),
-		chErr:make(chan error, 1),
+		chB:make(chan []byte, 50*3), // "+CPMS: \"SM_P\",50,50,\"SM_P\",50,50,\"SM_P\",50,50"
+		chErr:make(chan error, 50*3),
 	}
 	s.conf = &serial.Config{Name: comPort, Baud: baudRate, ReadTimeout:readTimeout}
 

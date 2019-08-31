@@ -8,6 +8,7 @@ import (
 	"github.com/totoval/framework/helpers/log"
 	"totoval/app/logics/phone"
 	"totoval/app/logics/phone/notifiers"
+	"totoval/app/logics/phone/storagers"
 )
 
 func init() {
@@ -49,7 +50,11 @@ func (sr *SmsReader) Handler(arg *cmd.Arg) error {
 	}()
 	log.Info("Listening", toto.V{"com_port": *comPort})
 
-	ph := phone.New(sim800c, new(notifiers.Pushover))
+	storager := storagers.NewCSV("./sms.csv")
+	defer func() {
+		_ = log.Error(storager.Close())
+	}()
+	ph := phone.New(sim800c, new(notifiers.Pushover), storager)
 
 	ph.Listen()
 

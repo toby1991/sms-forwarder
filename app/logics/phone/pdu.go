@@ -128,6 +128,10 @@ func (p *pdu) scan() error {
 		if err := p.parseContent8(); err != nil {
 			return err
 		}
+	case "09":
+		fallthrough
+	case "19":
+		fallthrough
 	case "08":
 		// utf16 ucs2
 		if err := p.parseContent16(); err != nil {

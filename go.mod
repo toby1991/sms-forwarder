@@ -8,3 +8,5 @@ require (
 	github.com/urfave/cli v1.20.0
 	golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2
 )
+
+go 1.13

@@ -280,9 +280,19 @@ func (p *pdu) parseContent7() error {
 		}
 	}
 
+
+	if septetsList == nil{
+		return errors.New("septetsList is nil")
+	}
+	if restList == nil{
+		return errors.New("restList is nil")
+	}
+
+
 	matchCount := 0 // AJA
 	content := ""
-	for i := 0; i < len(restList); i++ {
+	i := 0
+	for i = 0; i < len(restList); i++ {
 		if i%7 == 0 {
 			if i != 0 {
 				index, err := bin2Int(restList[i-1])
@@ -307,6 +317,15 @@ func (p *pdu) parseContent7() error {
 			content += defaultList[index]
 			matchCount++
 		}
+	}
+
+	// Don't forget trailing characters!! AJA
+	if matchCount != int(p.contentLen()) {
+		index, err := bin2Int(restList[i-1])
+		if err != nil {
+			return err
+		}
+		content = content + defaultList[index]
 	}
 
 	p.content = content

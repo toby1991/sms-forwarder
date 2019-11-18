@@ -1,7 +1,6 @@
 package phone
 
 import (
-	"github.com/totoval/framework/helpers/debug"
 	"testing"
 )
 
@@ -14,21 +13,35 @@ func TestPdu_Scan16(t *testing.T) {
 	if pdu.from != "106910914105639" {
 		t.Error("pdu.from error")
 	}
-	debug.DD(pdu)
+	//debug.DD(pdu)
 	if pdu.content != "【luckin coffee】我猜你想喝点什么，送你5.5折全场饮品券，全场饮品皆可使用～去APP/小程序喝一杯 回TD退订" {
+		t.Error("pdu.content error")
+	}
+}
+func TestPdu_Scan7(t *testing.T) {
+	pdu := NewPDU()
+	pdu.Scan("0891683108200945F5240D91683123151820F500009111712291242308E8329BFD3EBFC9")
+	if pdu.center != "+8613800290545" {
+		t.Error("pdu.center error")
+	}
+	if pdu.from != "+8613325181025" {
+		t.Error("pdu.from error")
+	}
+	//debug.DD(pdu)
+	if pdu.content != "hellogod" {
 		t.Error("pdu.content error")
 	}
 }
 func TestPdu_Scan8(t *testing.T) {
 	pdu := NewPDU()
 	pdu.Scan("0891683108200945F5240D91681234551820F100009180122024432306E170381C0E03")
-	if pdu.center != "+8613800290505" {
+	if pdu.center != "+8613800290545" {
 		t.Error("pdu.center error")
 	}
-	if pdu.from != "106910914105639" {
+	if pdu.from != "+8621435581021" {
 		t.Error("pdu.from error")
 	}
-	debug.DD(pdu)
+	//debug.DD(pdu)
 	if pdu.content != "aaaaaa" {
 		t.Error("pdu.content error")
 	}

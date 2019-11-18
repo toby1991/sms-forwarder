@@ -20,7 +20,7 @@ crw-rw----. 1 root dialout 188, 1 8月  21 02:47 /dev/ttyUSB0
 ```
 3. Copy `.env.example.json` -> `.env.json`
 4. Save your `pushover` config in `.env.json`
-5. `go run artisan sms:read /dev/YOUR-SERIAL`, such as `/dev/ttyUSB0`
+5. `go run artisan.go sms:read /dev/YOUR-SERIAL`, such as `/dev/ttyUSB0`
 
 > Binary `WIP`
 

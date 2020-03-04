@@ -83,14 +83,23 @@ func (s *sim800c) Read2() {
 
 		_n, err := s.read(_b)
 		if err != nil {
-			if err == io.EOF{
+			if err == io.EOF {
 				if len(b) <= 0 {
+					// no message, continue receiving
 					continue
 				}
+
+				if _n <= 0 {
+					// received finished
+					return
+				}
+
+				// len(b) > 0 && _n > 0 received aborted
 				s.chErr <- io.EOF
 				s.chB <- b
 				return
 			}
+			// received error
 			s.chErr <- err
 			return
 		}

@@ -23,7 +23,7 @@ RUN go mod download
 RUN go build -o ./builds/artisan ./artisan.go
 
 # ===================================================================================
-FROM golang1.13-alpine
+FROM golang:1.13-alpine
 MAINTAINER Totoval <totoval@tobyan.com> (https://totoval.com)
 LABEL "maintainer"="Totoval <totoval@tobyan.com> (https://totoval.com)"
 

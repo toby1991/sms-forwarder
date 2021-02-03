@@ -24,7 +24,12 @@ crw-rw----. 1 root dialout 188, 1 8月  21 02:47 /dev/ttyUSB0
 
 ## Docker
 ```shell
-docker run --rm -it -d --device=/dev/ttyUSB0 toby1991/sms-forwarder:latest
+docker run --rm -it -d \
+          --device=/dev/ttyUSB0 \
+          -e TOTOVAL_PUSHOVER_USER=YOUR_PUSHOVER_USER \
+          -e TOTOVAL_PUSHOVER_TOKEN=YOUR_PUSHOVER_TOKEN \
+          -e TOTOVAL_PUSHOVER_DEVICE="" \
+          toby1991/sms-forwarder:latest
 ```
 
 

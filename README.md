@@ -22,6 +22,11 @@ crw-rw----. 1 root dialout 188, 1 8月  21 02:47 /dev/ttyUSB0
 4. Save your `pushover` config in `.env.json`
 5. `go run artisan.go sms:read /dev/YOUR-SERIAL`, such as `/dev/ttyUSB0`
 
+## Docker
+```shell
+docker run --rm -it -d --device=/dev/ttyUSB0 toby1991/sms-forwarder:latest
+```
+
 
 ## Implement your own NOTIFIER
 `/app/logics/phone/interfaces/notifier.go`  

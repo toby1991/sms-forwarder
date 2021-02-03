@@ -32,4 +32,4 @@ COPY --from=builder /src/.env.example.json /sms/.env.json
 
 WORKDIR /sms
 
-ENTRYPOINT /sms/sms-forwarder sms:read /dev/ttyUSB0
+ENTRYPOINT ["/sms/sms-forwarder", "sms:read", "/dev/ttyUSB0"]

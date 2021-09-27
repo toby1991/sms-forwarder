@@ -3,6 +3,7 @@ package phone
 import (
 	"errors"
 	"fmt"
+	"time"
 	"github.com/totoval/framework/helpers/log"
 	"github.com/totoval/framework/helpers/toto"
 	"github.com/totoval/framework/helpers/zone"
@@ -46,7 +47,7 @@ func (ph *phone) Listen() {
 		case err := <-ph.chip.Error():
 			log.Panic(err)
 		default:
-			continue
+			time.Sleep(time.Second)
 		}
 
 	}

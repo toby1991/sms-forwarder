@@ -12,6 +12,8 @@ import (
 	"totoval/app/logics/phone/sms"
 )
 
+const SMS_RESERVED_AMOUNT = uint(4)
+
 type phone struct {
 	chip     interfaces.Chipper
 	notifier interfaces.Notifier
@@ -106,7 +108,11 @@ func (ph *phone) parse(msg []byte) error {
 		}
 
 		log.Info("sms amount", toto.V{"amount": smsAmount, "max": smsMax})
-		if smsAmount >= smsMax {
+		amountToClean := smsMax
+		if smsMax <= SMS_RESERVED_AMOUNT {
+		        amountToClean = 0	
+		}
+		if smsAmount >= amountToClean {
 			for i := uint(0); i < smsAmount; i++ {
 				if err := sms.Delete(ph.chip, i+1); err != nil {
 					return err
